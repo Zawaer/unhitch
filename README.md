@@ -48,7 +48,7 @@ rather than a two-line `blueutil` script.
 
 <br>
 
-## Is this you?
+## Is this for you?
 
 Ranked by how much it actually costs you:
 
@@ -64,7 +64,7 @@ Ranked by how much it actually costs you:
   *Connect to This Mac → When Last Connected to This Mac* setting covers some of this
   already, so try that first.
 
-**Not you:** one Mac, one phone, one multipoint headset, never docked. You have two
+**Not for you:** one Mac, one phone, one multipoint headset, never docked. You have two
 slots and two devices. Don't install this.
 
 <br>
@@ -180,15 +180,12 @@ retries if it does not.
 
 ## Checking what it did
 
-Unhitch logs every decision it makes to the unified log, which is the closest thing a
-menu bar app has to showing its work:
+Unhitch shows nothing while it works, so it writes each decision to the unified log.
+Close the lid, wait a moment, open it again, then:
 
 ```sh
-log show --predicate 'subsystem == "com.zawaer.unhitch"' --last 15m --style compact
+make log
 ```
-
-Close the lid, wait a moment, open it again, and you should see the lid transitions and
-each disconnect land:
 
 ```
 lid closed
@@ -198,7 +195,7 @@ disconnect WH-1000XM4: done
 lid opened
 ```
 
-From a clone, `make log` is the same thing.
+Without a clone: `log show --predicate 'subsystem == "com.zawaer.unhitch"' --last 15m --style compact`
 
 <br>
 
