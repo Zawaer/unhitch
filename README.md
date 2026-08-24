@@ -130,8 +130,7 @@ whichever way you install.
 
 ## Build from source
 
-Requires the Xcode command line tools. Nothing else — no Homebrew, no dependencies, no
-package manifest to resolve.
+Requires the Xcode command line tools, nothing else.
 
 ```sh
 git clone https://github.com/Zawaer/unhitch.git

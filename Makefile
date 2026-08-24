@@ -1,14 +1,17 @@
 APP        := Unhitch
 BUNDLE     := dist/$(APP).app
 CONFIG     := release
-BIN        := .build/$(CONFIG)/$(APP)
+## Universal, because Ventura still runs on Intel Macs and the README says 13+.
+ARCHS      := --arch arm64 --arch x86_64
+## Passing --arch moves the product out of .build/$(CONFIG)/ into its own tree.
+BIN        := .build/apple/Products/Release/$(APP)
 
 .PHONY: all build app icon run install uninstall zip cask log clean
 
 all: app
 
 build:
-	swift build -c $(CONFIG)
+	swift build -c $(CONFIG) $(ARCHS)
 
 ## Assemble a real .app bundle. SwiftPM only emits a bare executable, and a menu
 ## bar app needs Info.plist (LSUIElement) plus a bundle identifier for login items.
