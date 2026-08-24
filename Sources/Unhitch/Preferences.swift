@@ -10,6 +10,7 @@ enum Preferences {
         static let onLidClose = "disconnectOnLidClose"
         static let onSystemSleep = "disconnectOnSystemSleep"
         static let reconnectOnWake = "reconnectOnWake"
+        static let hasLaunchedBefore = "hasLaunchedBefore"
     }
 
     static func registerDefaults() {
@@ -19,6 +20,7 @@ enum Preferences {
             Key.onLidClose: true,
             Key.onSystemSleep: true,
             Key.reconnectOnWake: false,
+            Key.hasLaunchedBefore: false,
         ])
     }
 
@@ -46,6 +48,13 @@ enum Preferences {
     static var reconnectOnWake: Bool {
         get { defaults.bool(forKey: Key.reconnectOnWake) }
         set { defaults.set(newValue, forKey: Key.reconnectOnWake) }
+    }
+
+    /// Used once, to open the menu on first launch. Picking a device is the only
+    /// setup step there is, so it should not be something you have to go looking for.
+    static var hasLaunchedBefore: Bool {
+        get { defaults.bool(forKey: Key.hasLaunchedBefore) }
+        set { defaults.set(newValue, forKey: Key.hasLaunchedBefore) }
     }
 
     static func isWatched(_ address: String) -> Bool {

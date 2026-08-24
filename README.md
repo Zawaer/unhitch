@@ -1,11 +1,33 @@
-# Unhitch
+<p align="center">
+  <img src="docs/icon.png" width="104" alt="">
+</p>
 
-**Your MacBook is using one of your headphones' two Bluetooth slots to do nothing.**
+<h1 align="center">Unhitch</h1>
+
+<p align="center">
+  <b>Your MacBook is using one of your headphones' two Bluetooth slots to do nothing.</b>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Zawaer/unhitch/actions/workflows/build.yml"><img src="https://github.com/Zawaer/unhitch/actions/workflows/build.yml/badge.svg" alt="Build"></a>
+  <img src="https://img.shields.io/badge/macOS-13%2B-333" alt="macOS 13+">
+  <img src="https://img.shields.io/badge/dependencies-none-333" alt="No dependencies">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-333" alt="MIT"></a>
+</p>
+
+<br>
 
 Multipoint is not unlimited. It is almost always exactly two connections. So when you
 shut the lid and walk off, the Mac in your bag does not politely step aside — it keeps
 its slot. You are down to one, to be shared between your phone, your tablet and your
 work laptop, and something has to lose.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/slots-dark.svg">
+    <img src="docs/slots-light.svg" width="820" alt="Without Unhitch, a sleeping MacBook occupies the second of two connection slots and the iPad is locked out. With Unhitch, the MacBook steps aside and the iPad takes the slot.">
+  </picture>
+</p>
 
 Sometimes it loses loudly: a call routed to a laptop that is closed inside a bag,
 playback that stutters when you hit play on your phone, a headset that flatly refuses
@@ -25,11 +47,18 @@ Unhitch takes the slot back.
 Because that also switches off **Find My's offline finding network** — the thing that
 lets a closed, sleeping Mac be located by other Apple devices passing within Bluetooth
 range. Turning the radio off to stop one headset reconnecting means giving up the
-ability to find a stolen laptop. That is a terrible trade, and it is what every
-`blueutil`-on-sleep script quietly asks you to make.
+ability to find a stolen laptop, and taking your keyboard and trackpad down with it.
 
-Unhitch closes individual device links instead. The radio is never touched, so
-offline finding keeps broadcasting exactly as before.
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/radio-dark.svg">
+    <img src="docs/radio-light.svg" width="820" alt="Turning the Bluetooth radio off releases the headphones but also kills the keyboard, trackpad and Find My offline finding. Unhitch closes a single link and keeps all three.">
+  </picture>
+</p>
+
+Unhitch closes individual device links instead. The radio is never touched, so offline
+finding keeps broadcasting exactly as before. This is the entire reason the app exists
+rather than a two-line `blueutil` script.
 
 <br>
 
@@ -77,14 +106,15 @@ The app is signed locally rather than notarized, so the first launch needs one e
 step: **right-click the app → Open → Open**. macOS remembers the choice and every launch
 after that is a normal double-click.
 
-Then click the menu bar icon, tick your headphones, and you are done. There is no
-account, no onboarding, and nothing else to configure.
+On first launch the menu opens by itself. Tick your headphones and you are done — there
+is no account, no onboarding, and nothing else to configure.
 
 <br>
 
 ## Build from source
 
-Requires Xcode command line tools. Nothing else — no Homebrew, no dependencies.
+Requires the Xcode command line tools. Nothing else — no Homebrew, no dependencies, no
+package manifest to resolve.
 
 ```sh
 git clone https://github.com/Zawaer/unhitch.git
@@ -92,14 +122,14 @@ cd unhitch
 make install
 ```
 
-`make install` builds the app, generates the icon, signs it locally, and puts it in
-`/Applications`. Other targets:
+`make install` builds the app, signs it locally and puts it in `/Applications`.
 
 | Target | What it does |
 | --- | --- |
 | `make app` | Build `dist/Unhitch.app` without installing |
 | `make run` | Build and launch from `dist/` |
 | `make zip` | Package `dist/Unhitch.zip` for a release |
+| `make art` | Redraw the app icon and the figures above from their generators |
 | `make uninstall` | Quit and remove the installed app |
 | `make clean` | Remove build products |
 
@@ -107,7 +137,7 @@ make install
 
 ## How it works
 
-Three signals drive the whole app:
+Three signals drive the whole app.
 
 **Lid state** comes from `AppleClamshellState` on `IOPMrootDomain`, watched through an
 IOKit interest notification. This is tracked separately from sleep on purpose — a
@@ -120,7 +150,8 @@ acknowledging sleep until the disconnect has actually landed. Acknowledging late
 fine; sleeping with the headset still attached is not.
 
 **Connections** come from `IOBluetoothDevice.register(forConnectNotifications:)`. While
-the lid is shut, any watched device that connects gets hung up on immediately.
+the lid is shut, any watched device that connects gets hung up on immediately. This is
+what catches earbuds taken out of their case long after the laptop was put away.
 
 Disconnecting is `IOBluetoothDevice.closeConnection()` — one link, not the radio. It
 returns before the link is really gone (about 2.4 seconds on an M3 Air with an A2DP
@@ -131,8 +162,8 @@ retries if it does not.
 
 ## Checking what it did
 
-Unhitch logs every decision it makes to the unified log, which is the closest thing
-a menu bar app has to showing its work:
+Unhitch logs every decision it makes to the unified log, which is the closest thing a
+menu bar app has to showing its work:
 
 ```sh
 log stream --predicate 'subsystem == "com.zawaer.unhitch"'
@@ -147,7 +178,6 @@ disconnect land.
 
 - **Find My is unaffected.** Unhitch never enables, disables, or reconfigures the
   Bluetooth radio. Offline finding keeps broadcasting from a closed, sleeping Mac.
-  This is the entire reason the app exists instead of a two-line `blueutil` script.
 - **Reconnect on lid open is off by default.** If your headphones moved to your phone
   while you were away, having the Mac grab them back the moment you sit down is its own
   small annoyance. Turn it on if you want it.

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="288" viewBox="0 0 860 288" role="img" aria-label="Turning the Bluetooth radio off also kills Find My and your keyboard. Unhitch closes one link instead.">
+<text x="26" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#656d76" text-anchor="start" letter-spacing="1.4">THE USUAL SLEEP SCRIPT</text>
+<rect x="24" y="42" width="376" height="212" rx="12" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+<text x="48" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="start">blueutil off</text>
+<rect x="48" y="96" width="328" height="40" rx="9" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+<path d="M66 117 l3.5 3.5 l7 -8" stroke="#1a7f37" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="92" y="121" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#1f2328" text-anchor="start">Headphones let go</text>
+<rect x="48" y="146" width="328" height="40" rx="9" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+<path d="M66 162.5 l9 9 M75 162.5 l-9 9" stroke="#bc4c00" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="92" y="171" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#656d76" text-anchor="start">Keyboard and trackpad</text>
+<rect x="48" y="196" width="328" height="40" rx="9" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+<path d="M66 212.5 l9 9 M75 212.5 l-9 9" stroke="#bc4c00" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="92" y="221" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#656d76" text-anchor="start">Find My offline finding</text>
+<text x="462" y="26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#656d76" text-anchor="start" letter-spacing="1.4">UNHITCH</text>
+<rect x="460" y="42" width="376" height="212" rx="12" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+<text x="484" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="start">one link closed</text>
+<rect x="484" y="96" width="328" height="40" rx="9" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+<path d="M502 117 l3.5 3.5 l7 -8" stroke="#1a7f37" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="528" y="121" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#1f2328" text-anchor="start">Headphones let go</text>
+<rect x="484" y="146" width="328" height="40" rx="9" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+<path d="M502 167 l3.5 3.5 l7 -8" stroke="#1a7f37" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="528" y="171" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#1f2328" text-anchor="start">Keyboard and trackpad</text>
+<rect x="484" y="196" width="328" height="40" rx="9" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+<path d="M502 217 l3.5 3.5 l7 -8" stroke="#1a7f37" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="528" y="221" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#1f2328" text-anchor="start">Find My offline finding</text>
+</svg>

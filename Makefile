@@ -3,7 +3,7 @@ BUNDLE     := dist/$(APP).app
 CONFIG     := release
 BIN        := .build/$(CONFIG)/$(APP)
 
-.PHONY: all build app icon run install uninstall zip clean
+.PHONY: all build app icon art run install uninstall zip clean
 
 all: app
 
@@ -22,10 +22,16 @@ app: build icon
 	codesign --force --deep --sign - "$(BUNDLE)"
 	@echo "Built $(BUNDLE)"
 
+## The icon is committed, so this only runs if it has been deleted.
 Resources/AppIcon.icns:
 	swift Tools/MakeIcon.swift Resources/AppIcon.icns
 
 icon: Resources/AppIcon.icns
+
+## Redraw the icon and the README figures from their generators.
+art:
+	swift Tools/MakeIcon.swift Resources/AppIcon.icns
+	python3 Tools/make_diagrams.py
 
 run: app
 	pkill -x $(APP) || true
@@ -47,4 +53,4 @@ zip: app
 	@echo "Packaged dist/$(APP).zip"
 
 clean:
-	rm -rf .build dist Resources/AppIcon.icns
+	rm -rf .build dist

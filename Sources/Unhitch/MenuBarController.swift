@@ -23,6 +23,12 @@ final class MenuBarController: NSObject, NSMenuDelegate {
         menu.delegate = self
         statusItem.menu = menu
         updateIcon()
+
+        guard !Preferences.hasLaunchedBefore else { return }
+        Preferences.hasLaunchedBefore = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+            self?.statusItem.button?.performClick(nil)
+        }
     }
 
     /// Keeps the icon honest always, and the menu honest only while it is on screen.
