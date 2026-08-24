@@ -112,9 +112,6 @@ onboarding, and nothing else to configure.
 
 ### With Homebrew
 
-The cask lives in this repository rather than in a separate tap, so the first tap needs
-the repository URL spelled out. After that it behaves like any other cask.
-
 ```sh
 brew tap zawaer/unhitch https://github.com/Zawaer/unhitch
 brew trust zawaer/unhitch
