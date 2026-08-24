@@ -97,7 +97,6 @@ final class MenuBarController: NSObject, NSMenuDelegate {
         add(title: "Settings…", action: #selector(openSettings), keyEquivalent: ",")
 
         menu.addItem(.separator())
-        addCaption("Bluetooth stays on — Find My is unaffected")
         add(title: "Quit Unhitch", action: #selector(quit), keyEquivalent: "q")
     }
 
