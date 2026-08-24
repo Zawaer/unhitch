@@ -1,18 +1,56 @@
 # Clamshell
 
-**Your MacBook keeps your headphones when you shut the lid. Clamshell hands them back.**
+**Your MacBook is using one of your headphones' two Bluetooth slots to do nothing.**
 
-Close your laptop, walk off with your headphones, and the Mac is still holding the
-Bluetooth link. On headsets that juggle two sources well you might never notice. On
-everything else it shows up as a call routed to a closed laptop in your bag, playback
-that stutters when you hit play on your phone, or a headset that just refuses to switch.
+Multipoint is not unlimited. It is almost always exactly two connections. So when you
+shut the lid and walk off, the Mac in your bag does not politely step aside — it keeps
+its slot. You are down to one, to be shared between your phone, your tablet and your
+work laptop, and something has to lose.
 
-The usual fix is to turn Bluetooth off on sleep — which also switches off **Find My's
-offline finding network**, the thing that lets a closed, sleeping Mac be located by
-other Apple devices passing nearby. That is a bad trade.
+Sometimes it loses loudly: a call routed to a laptop that is closed inside a bag,
+playback that stutters when you hit play on your phone, a headset that flatly refuses
+to switch. More often it loses quietly. Your headphones connect to the wrong thing
+slightly too often, and you never work out why.
 
-Clamshell disconnects only the devices you pick. The Bluetooth radio is never touched,
-so Find My keeps working exactly as before.
+On a Sony WH-1000XM4 the bill is itemised for you. Multipoint and LDAC are mutually
+exclusive — you may have two slots, or you may have the good codec, not both. Spending
+one of those hard-bought slots on a sleeping laptop is a bad deal in anyone's money.
+
+Clamshell takes the slot back.
+
+<br>
+
+## Why not just turn Bluetooth off on sleep?
+
+Because that also switches off **Find My's offline finding network** — the thing that
+lets a closed, sleeping Mac be located by other Apple devices passing within Bluetooth
+range. Turning the radio off to stop one headset reconnecting means giving up the
+ability to find a stolen laptop. That is a terrible trade, and it is what every
+`blueutil`-on-sleep script quietly asks you to make.
+
+Clamshell closes individual device links instead. The radio is never touched, so
+offline finding keeps broadcasting exactly as before.
+
+<br>
+
+## Is this you?
+
+Ranked by how much it actually costs you:
+
+- **You dock to an external display.** The lid is shut but the Mac is wide awake, and
+  audio keeps routing to a laptop closed on a stand. Not an occasional glitch — this is
+  every working day.
+- **You have more than two devices.** Phone, tablet, work laptop, personal Mac. Two
+  slots. The sleeping laptop is the least deserving occupant of one of them.
+- **Your headphones do not do multipoint at all.** The pain is rarer but total: calls
+  and audio land on a machine you are not near.
+- **You use AirPods.** Partially. Automatic switching hands your podcast to a closed
+  MacBook; dropping the link removes the Mac as a switching target. Apple's own
+  *Connect to This Mac → When Last Connected to This Mac* setting covers some of this
+  already, so try that first.
+
+**Not you:** one Mac, one phone, one multipoint headset, never docked. You have two
+slots and two devices. Install nothing.
 
 <br>
 
