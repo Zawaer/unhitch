@@ -3,7 +3,7 @@ BUNDLE     := dist/$(APP).app
 CONFIG     := release
 BIN        := .build/$(CONFIG)/$(APP)
 
-.PHONY: all build app icon art run install uninstall zip clean
+.PHONY: all build app icon art run install uninstall zip log clean
 
 all: app
 
@@ -52,6 +52,11 @@ uninstall:
 zip: app
 	cd dist && zip -qry "$(APP).zip" "$(APP).app"
 	@echo "Packaged dist/$(APP).zip"
+
+## What Unhitch has decided recently. Close the lid, open it, then run this.
+log:
+	@log show --predicate 'subsystem == "com.zawaer.unhitch"' --last 15m --style compact \
+		| grep unhitch: || echo "No events in the last 15 minutes."
 
 clean:
 	rm -rf .build dist

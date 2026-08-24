@@ -161,6 +161,7 @@ make install
 | `make zip` | Package `dist/Unhitch.zip` for a release |
 | `make art` | Redraw the app icon, diagrams and window screenshots from their generators |
 | `make uninstall` | Quit and remove the installed app |
+| `make log` | Show what Unhitch has decided in the last 15 minutes |
 | `make clean` | Remove build products |
 
 <br>
@@ -196,11 +197,20 @@ Unhitch logs every decision it makes to the unified log, which is the closest th
 menu bar app has to showing its work:
 
 ```sh
-log stream --predicate 'subsystem == "com.zawaer.unhitch"'
+log show --predicate 'subsystem == "com.zawaer.unhitch"' --last 15m --style compact
 ```
 
-Close the lid, open it again, and you should see the lid transitions and each
-disconnect land.
+Close the lid, wait a moment, open it again, and you should see the lid transitions and
+each disconnect land:
+
+```
+lid closed
+disconnect WH-1000XM4: done
+system will sleep
+lid opened
+```
+
+From a clone, `make log` is the same thing.
 
 <br>
 
