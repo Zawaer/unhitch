@@ -205,8 +205,9 @@ each disconnect land:
 
 ```
 lid closed
-disconnect WH-1000XM4: done
+disconnect WH-1000XM4: requested
 system will sleep
+disconnect WH-1000XM4: done
 lid opened
 ```
 

@@ -146,7 +146,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         for address in model.watched where bluetooth.isConnected(address) {
             disconnectedByUs.insert(address)
             let dropped = bluetooth.disconnect(address, blocking: blocking)
-            Log.event("disconnect \(bluetooth.name(for: address)): \(dropped ? "done" : "pending")")
+            // On the awake path a false result only means the teardown is under way
+            // and will be verified later; on the sleep path it means we gave up.
+            let outcome = dropped ? "done" : (blocking ? "FAILED, still connected" : "requested")
+            Log.event("disconnect \(bluetooth.name(for: address)): \(outcome)")
         }
         menuBar.refreshIfVisible()
     }
