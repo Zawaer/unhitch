@@ -1,7 +1,9 @@
 import Foundation
 import IOBluetooth
 
-struct PairedDevice {
+struct PairedDevice: Identifiable {
+    var id: String { address }
+
     let name: String
     let address: String       // lowercased "xx-xx-xx-xx-xx-xx"
     let isConnected: Bool

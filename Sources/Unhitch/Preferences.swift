@@ -11,6 +11,7 @@ enum Preferences {
         static let onSystemSleep = "disconnectOnSystemSleep"
         static let reconnectOnWake = "reconnectOnWake"
         static let hasLaunchedBefore = "hasLaunchedBefore"
+        static let showMenuBarIcon = "showMenuBarIcon"
     }
 
     static func registerDefaults() {
@@ -21,6 +22,7 @@ enum Preferences {
             Key.onSystemSleep: true,
             Key.reconnectOnWake: false,
             Key.hasLaunchedBefore: false,
+            Key.showMenuBarIcon: true,
         ])
     }
 
@@ -48,6 +50,13 @@ enum Preferences {
     static var reconnectOnWake: Bool {
         get { defaults.bool(forKey: Key.reconnectOnWake) }
         set { defaults.set(newValue, forKey: Key.reconnectOnWake) }
+    }
+
+    /// The menu bar icon is opt-out. Some people keep a deliberately empty menu bar
+    /// and would rather this ran invisibly, reachable by reopening the app.
+    static var showMenuBarIcon: Bool {
+        get { defaults.bool(forKey: Key.showMenuBarIcon) }
+        set { defaults.set(newValue, forKey: Key.showMenuBarIcon) }
     }
 
     /// Used once, to open the menu on first launch. Picking a device is the only

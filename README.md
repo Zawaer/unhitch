@@ -12,6 +12,7 @@
   <a href="https://github.com/Zawaer/unhitch/actions/workflows/build.yml"><img src="https://github.com/Zawaer/unhitch/actions/workflows/build.yml/badge.svg" alt="Build"></a>
   <img src="https://img.shields.io/badge/macOS-13%2B-333" alt="macOS 13+">
   <img src="https://img.shields.io/badge/dependencies-none-333" alt="No dependencies">
+  <img src="https://img.shields.io/badge/menu%20bar-optional-333" alt="Menu bar optional">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-333" alt="MIT"></a>
 </p>
 
@@ -85,7 +86,6 @@ slots and two devices. Install nothing.
 
 ## What it does
 
-- Sits in the menu bar. No window, no Dock icon, no preferences file to edit.
 - Lists your paired Bluetooth devices. Tick the ones that should let go on lid close.
 - Drops those links when you close the lid, when the Mac sleeps, or both.
 - Keeps dropping them while the lid stays shut — so earbuds pulled out of their case
@@ -94,6 +94,35 @@ slots and two devices. Install nothing.
 
 Everything else is left alone: your keyboard, your mouse, your trackpad, and the radio
 itself.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/settings-dark.png">
+    <img src="docs/settings-light.png" width="420" alt="The Unhitch window: a list of paired devices with the two headsets ticked, toggles for when to let go, and options for launching at login and showing the menu bar icon.">
+  </picture>
+</p>
+
+<br>
+
+## Set it once and forget it
+
+Unhitch is not something you operate. After the first launch there is nothing to click
+again: it watches the lid, the sleep signal and incoming Bluetooth connections, and acts
+on its own. The **Disconnect Now** button exists as an escape hatch, not as a routine.
+
+The intended end state is an app you never see — launched at login, menu bar icon
+switched off, quietly declining to hold a connection it should not be holding.
+
+<br>
+
+## Window or menu bar, your choice
+
+There is a proper window and an optional menu bar icon, and neither is the "real" UI —
+the same settings are reachable from both.
+
+If you keep a deliberately empty menu bar, turn **Show in the menu bar** off. Unhitch
+carries on running invisibly with no Dock icon either; reopening it from your
+Applications folder brings the window back.
 
 <br>
 
@@ -106,8 +135,9 @@ The app is signed locally rather than notarized, so the first launch needs one e
 step: **right-click the app → Open → Open**. macOS remembers the choice and every launch
 after that is a normal double-click.
 
-On first launch the menu opens by itself. Tick your headphones and you are done — there
-is no account, no onboarding, and nothing else to configure.
+On first launch the window opens by itself and Unhitch adds itself as a login item, so
+it survives a restart. Tick your headphones and you are done — there is no account, no
+onboarding, and nothing else to configure.
 
 <br>
 
@@ -129,7 +159,7 @@ make install
 | `make app` | Build `dist/Unhitch.app` without installing |
 | `make run` | Build and launch from `dist/` |
 | `make zip` | Package `dist/Unhitch.zip` for a release |
-| `make art` | Redraw the app icon and the figures above from their generators |
+| `make art` | Redraw the app icon, diagrams and window screenshots from their generators |
 | `make uninstall` | Quit and remove the installed app |
 | `make clean` | Remove build products |
 

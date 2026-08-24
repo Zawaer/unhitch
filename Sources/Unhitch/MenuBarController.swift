@@ -1,38 +1,39 @@
 import AppKit
 
+/// The menu bar half of the UI. Optional — see `Preferences.showMenuBarIcon` — and
+/// deliberately not the only way to reach anything.
 final class MenuBarController: NSObject, NSMenuDelegate {
 
-    var onStateChanged: (() -> Void)?
-    var onDisconnectNow: (() -> Void)?
-    var hasClamshell: Bool = true
+    var onOpenSettings: (() -> Void)?
 
-    private let bluetooth: BluetoothManager
-    private var statusItem: NSStatusItem!
+    private let model: AppModel
+    private var statusItem: NSStatusItem?
     private let menu = NSMenu()
     private var isMenuOpen = false
 
-    static let repositoryURL = URL(string: "https://github.com/Zawaer/unhitch")!
-
-    init(bluetooth: BluetoothManager) {
-        self.bluetooth = bluetooth
+    init(model: AppModel) {
+        self.model = model
         super.init()
+        menu.delegate = self
     }
 
-    func install() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        menu.delegate = self
-        statusItem.menu = menu
-        updateIcon()
-
-        guard !Preferences.hasLaunchedBefore else { return }
-        Preferences.hasLaunchedBefore = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
-            self?.statusItem.button?.performClick(nil)
+    /// Adding and removing the status item is how the icon is hidden; there is no
+    /// "invisible" state for an `NSStatusItem` worth faking.
+    func setVisible(_ visible: Bool) {
+        if visible {
+            guard statusItem == nil else { return }
+            let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+            item.menu = menu
+            statusItem = item
+            updateIcon()
+        } else {
+            guard let item = statusItem else { return }
+            NSStatusBar.system.removeStatusItem(item)
+            statusItem = nil
         }
     }
 
     /// Keeps the icon honest always, and the menu honest only while it is on screen.
-    /// Rebuilding a closed menu is wasted work; rebuilding an open one is the point.
     func refreshIfVisible() {
         updateIcon()
         guard isMenuOpen else { return }
@@ -40,30 +41,24 @@ final class MenuBarController: NSObject, NSMenuDelegate {
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
+        model.refreshDevices()
         rebuild()
     }
 
-    func menuWillOpen(_ menu: NSMenu) {
-        isMenuOpen = true
-    }
-
-    func menuDidClose(_ menu: NSMenu) {
-        isMenuOpen = false
-    }
+    func menuWillOpen(_ menu: NSMenu) { isMenuOpen = true }
+    func menuDidClose(_ menu: NSMenu) { isMenuOpen = false }
 
     // MARK: - Icon
 
     private func updateIcon() {
         guard let button = statusItem?.button else { return }
-        let symbol = Preferences.enabled ? "laptopcomputer" : "laptopcomputer.slash"
-        let image = NSImage(systemSymbolName: symbol, accessibilityDescription: "Unhitch")
+        let name = model.isEnabled ? "laptopcomputer" : "laptopcomputer.slash"
+        let image = NSImage(systemSymbolName: name, accessibilityDescription: "Unhitch")
             ?? NSImage(systemSymbolName: "laptopcomputer", accessibilityDescription: "Unhitch")
         image?.isTemplate = true
         button.image = image
-        button.appearsDisabled = !Preferences.enabled
-        button.toolTip = Preferences.enabled
-            ? "Unhitch is watching \(Preferences.watchedDevices.count) device(s)"
-            : "Unhitch is paused"
+        button.appearsDisabled = !model.isEnabled
+        button.toolTip = model.versionSummary
     }
 
     // MARK: - Menu
@@ -71,26 +66,21 @@ final class MenuBarController: NSObject, NSMenuDelegate {
     private func rebuild() {
         menu.removeAllItems()
 
-        add(title: Preferences.enabled ? "Unhitch is on" : "Unhitch is paused",
+        add(title: model.isEnabled ? "Unhitch is on" : "Unhitch is paused",
             action: #selector(toggleEnabled),
-            state: Preferences.enabled ? .on : .off)
+            state: model.isEnabled ? .on : .off)
 
         menu.addItem(.separator())
-        addHeader("Disconnect these when the lid closes")
+        addCaption("Devices to let go of")
 
-        let devices = bluetooth.pairedDevices()
-        if devices.isEmpty {
-            addHeader("No paired Bluetooth devices")
+        if model.devices.isEmpty {
+            addCaption("No paired Bluetooth devices")
         } else {
-            for device in devices {
-                let item = NSMenuItem(
-                    title: device.name,
-                    action: #selector(toggleDevice(_:)),
-                    keyEquivalent: ""
-                )
+            for device in model.devices {
+                let item = NSMenuItem(title: device.name, action: #selector(toggleDevice(_:)), keyEquivalent: "")
                 item.target = self
                 item.representedObject = device.address
-                item.state = Preferences.isWatched(device.address) ? .on : .off
+                item.state = model.isWatched(device.address) ? .on : .off
                 if device.isConnected {
                     item.attributedTitle = Self.title(device.name, suffix: "connected")
                 }
@@ -99,34 +89,40 @@ final class MenuBarController: NSObject, NSMenuDelegate {
         }
 
         menu.addItem(.separator())
+        menu.addItem(triggersItem())
 
-        if hasClamshell {
-            add(title: "Trigger on lid close",
-                action: #selector(toggleLidClose),
-                state: Preferences.disconnectOnLidClose ? .on : .off)
-        }
-        add(title: "Trigger on sleep",
-            action: #selector(toggleSystemSleep),
-            state: Preferences.disconnectOnSystemSleep ? .on : .off)
-        add(title: "Reconnect when the lid opens",
-            action: #selector(toggleReconnect),
-            state: Preferences.reconnectOnWake ? .on : .off)
+        let disconnect = add(title: "Disconnect Now", action: #selector(disconnectNow))
+        disconnect.isEnabled = !model.watched.isEmpty && model.isEnabled
+
+        add(title: "Settings…", action: #selector(openSettings), keyEquivalent: ",")
 
         menu.addItem(.separator())
-
-        let disconnectNow = add(title: "Disconnect selected now", action: #selector(disconnectNow))
-        disconnectNow.isEnabled = !Preferences.watchedDevices.isEmpty
-
-        if LaunchAtLogin.isAvailable {
-            add(title: "Launch at login",
-                action: #selector(toggleLaunchAtLogin),
-                state: LaunchAtLogin.isEnabled ? .on : .off)
-        }
-
-        menu.addItem(.separator())
-        addHeader("Bluetooth stays on — Find My is unaffected")
-        add(title: "About Unhitch", action: #selector(openRepository))
+        addCaption("Bluetooth stays on — Find My is unaffected")
         add(title: "Quit Unhitch", action: #selector(quit), keyEquivalent: "q")
+    }
+
+    /// The triggers live in a submenu so the menu stays short without making the
+    /// settings window the only place they can be changed.
+    private func triggersItem() -> NSMenuItem {
+        let submenu = NSMenu()
+        let parent = NSMenuItem(title: "Let go when", action: nil, keyEquivalent: "")
+
+        func option(_ title: String, _ isOn: Bool, _ action: Selector) {
+            let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
+            item.target = self
+            item.state = isOn ? .on : .off
+            submenu.addItem(item)
+        }
+
+        if model.hasClamshell {
+            option("The lid closes", model.disconnectOnLidClose, #selector(toggleLidClose))
+        }
+        option("The Mac sleeps", model.disconnectOnSystemSleep, #selector(toggleSystemSleep))
+        submenu.addItem(.separator())
+        option("Reconnect when the lid opens", model.reconnectOnLidOpen, #selector(toggleReconnect))
+
+        parent.submenu = submenu
+        return parent
     }
 
     @discardableResult
@@ -155,7 +151,7 @@ final class MenuBarController: NSObject, NSMenuDelegate {
         return result
     }
 
-    private func addHeader(_ title: String) {
+    private func addCaption(_ title: String) {
         let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
         item.isEnabled = false
         item.attributedTitle = NSAttributedString(
@@ -170,46 +166,17 @@ final class MenuBarController: NSObject, NSMenuDelegate {
 
     // MARK: - Actions
 
-    @objc private func toggleEnabled() {
-        Preferences.enabled.toggle()
-        updateIcon()
-        onStateChanged?()
-    }
+    @objc private func toggleEnabled() { model.isEnabled.toggle(); updateIcon() }
+    @objc private func toggleLidClose() { model.disconnectOnLidClose.toggle() }
+    @objc private func toggleSystemSleep() { model.disconnectOnSystemSleep.toggle() }
+    @objc private func toggleReconnect() { model.reconnectOnLidOpen.toggle() }
+    @objc private func disconnectNow() { model.disconnectNow() }
+    @objc private func openSettings() { onOpenSettings?() }
+    @objc private func quit() { NSApp.terminate(nil) }
 
     @objc private func toggleDevice(_ sender: NSMenuItem) {
         guard let address = sender.representedObject as? String else { return }
-        Preferences.toggleWatched(address)
+        model.setWatched(address, !model.isWatched(address))
         updateIcon()
-        onStateChanged?()
-    }
-
-    @objc private func toggleLidClose() {
-        Preferences.disconnectOnLidClose.toggle()
-        onStateChanged?()
-    }
-
-    @objc private func toggleSystemSleep() {
-        Preferences.disconnectOnSystemSleep.toggle()
-        onStateChanged?()
-    }
-
-    @objc private func toggleReconnect() {
-        Preferences.reconnectOnWake.toggle()
-    }
-
-    @objc private func disconnectNow() {
-        onDisconnectNow?()
-    }
-
-    @objc private func toggleLaunchAtLogin() {
-        LaunchAtLogin.toggle()
-    }
-
-    @objc private func openRepository() {
-        NSWorkspace.shared.open(Self.repositoryURL)
-    }
-
-    @objc private func quit() {
-        NSApp.terminate(nil)
     }
 }

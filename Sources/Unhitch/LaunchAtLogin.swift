@@ -1,9 +1,14 @@
 import Foundation
 import ServiceManagement
 
-/// Login-item registration. Requires the app to be running from a real bundle,
-/// so every call is failure-tolerant: worst case the menu item just does nothing.
+/// Login-item registration.
+///
+/// `SMAppService.mainApp` needs the running bundle to be one LaunchServices knows
+/// about, so registration is failure-tolerant: on a copy run from a Downloads folder
+/// or a build directory it can simply refuse, and the toggle should say so rather
+/// than silently lie about it.
 enum LaunchAtLogin {
+
     static var isEnabled: Bool {
         SMAppService.mainApp.status == .enabled
     }
@@ -14,16 +19,29 @@ enum LaunchAtLogin {
 
     @discardableResult
     static func toggle() -> Bool {
+        let service = SMAppService.mainApp
+        let before = service.status
         do {
-            if isEnabled {
-                try SMAppService.mainApp.unregister()
+            if before == .enabled {
+                try service.unregister()
             } else {
-                try SMAppService.mainApp.register()
+                try service.register()
             }
+            Log.event("login item: \(describe(before)) -> \(describe(service.status))")
             return true
         } catch {
-            NSLog("Unhitch: could not change login item: \(error.localizedDescription)")
+            Log.event("login item: \(describe(before)) -> failed (\(error.localizedDescription))")
             return false
+        }
+    }
+
+    private static func describe(_ status: SMAppService.Status) -> String {
+        switch status {
+        case .notRegistered: return "notRegistered"
+        case .enabled: return "enabled"
+        case .requiresApproval: return "requiresApproval"
+        case .notFound: return "notFound"
+        @unknown default: return "unknown"
         }
     }
 }

@@ -32,6 +32,7 @@ icon: Resources/AppIcon.icns
 art:
 	swift Tools/MakeIcon.swift Resources/AppIcon.icns
 	python3 Tools/make_diagrams.py
+	sh Tools/render-settings.sh docs
 
 run: app
 	pkill -x $(APP) || true
