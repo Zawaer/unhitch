@@ -1,4 +1,4 @@
-APP        := Clamshell
+APP        := Unhitch
 BUNDLE     := dist/$(APP).app
 CONFIG     := release
 BIN        := .build/$(CONFIG)/$(APP)

@@ -60,7 +60,7 @@ func render(size: CGFloat) -> NSImage {
 }
 
 let iconset = URL(fileURLWithPath: NSTemporaryDirectory())
-    .appendingPathComponent("Clamshell-\(ProcessInfo.processInfo.processIdentifier).iconset")
+    .appendingPathComponent("Unhitch-\(ProcessInfo.processInfo.processIdentifier).iconset")
 try? FileManager.default.createDirectory(at: iconset, withIntermediateDirectories: true)
 
 // The sizes `iconutil` expects, each at 1x and 2x.

@@ -22,7 +22,7 @@ enum LaunchAtLogin {
             }
             return true
         } catch {
-            NSLog("Clamshell: could not change login item: \(error.localizedDescription)")
+            NSLog("Unhitch: could not change login item: \(error.localizedDescription)")
             return false
         }
     }

@@ -1,4 +1,4 @@
-# Clamshell
+# Unhitch
 
 **Your MacBook is using one of your headphones' two Bluetooth slots to do nothing.**
 
@@ -16,7 +16,7 @@ On a Sony WH-1000XM4 the bill is itemised for you. Multipoint and LDAC are mutua
 exclusive — you may have two slots, or you may have the good codec, not both. Spending
 one of those hard-bought slots on a sleeping laptop is a bad deal in anyone's money.
 
-Clamshell takes the slot back.
+Unhitch takes the slot back.
 
 <br>
 
@@ -28,7 +28,7 @@ range. Turning the radio off to stop one headset reconnecting means giving up th
 ability to find a stolen laptop. That is a terrible trade, and it is what every
 `blueutil`-on-sleep script quietly asks you to make.
 
-Clamshell closes individual device links instead. The radio is never touched, so
+Unhitch closes individual device links instead. The radio is never touched, so
 offline finding keeps broadcasting exactly as before.
 
 <br>
@@ -70,8 +70,8 @@ itself.
 
 ## Install
 
-Download `Clamshell.zip` from [Releases](https://github.com/Zawaer/clamshell/releases),
-unzip it, and drag `Clamshell.app` to your Applications folder.
+Download `Unhitch.zip` from [Releases](https://github.com/Zawaer/unhitch/releases),
+unzip it, and drag `Unhitch.app` to your Applications folder.
 
 The app is signed locally rather than notarized, so the first launch needs one extra
 step: **right-click the app → Open → Open**. macOS remembers the choice and every launch
@@ -87,8 +87,8 @@ account, no onboarding, and nothing else to configure.
 Requires Xcode command line tools. Nothing else — no Homebrew, no dependencies.
 
 ```sh
-git clone https://github.com/Zawaer/clamshell.git
-cd clamshell
+git clone https://github.com/Zawaer/unhitch.git
+cd unhitch
 make install
 ```
 
@@ -97,9 +97,9 @@ make install
 
 | Target | What it does |
 | --- | --- |
-| `make app` | Build `dist/Clamshell.app` without installing |
+| `make app` | Build `dist/Unhitch.app` without installing |
 | `make run` | Build and launch from `dist/` |
-| `make zip` | Package `dist/Clamshell.zip` for a release |
+| `make zip` | Package `dist/Unhitch.zip` for a release |
 | `make uninstall` | Quit and remove the installed app |
 | `make clean` | Remove build products |
 
@@ -131,11 +131,11 @@ retries if it does not.
 
 ## Checking what it did
 
-Clamshell logs every decision it makes to the unified log, which is the closest thing
+Unhitch logs every decision it makes to the unified log, which is the closest thing
 a menu bar app has to showing its work:
 
 ```sh
-log stream --predicate 'subsystem == "com.zawaer.clamshell"'
+log stream --predicate 'subsystem == "com.zawaer.unhitch"'
 ```
 
 Close the lid, open it again, and you should see the lid transitions and each
@@ -145,7 +145,7 @@ disconnect land.
 
 ## Notes and limits
 
-- **Find My is unaffected.** Clamshell never enables, disables, or reconfigures the
+- **Find My is unaffected.** Unhitch never enables, disables, or reconfigures the
   Bluetooth radio. Offline finding keeps broadcasting from a closed, sleeping Mac.
   This is the entire reason the app exists instead of a two-line `blueutil` script.
 - **Reconnect on lid open is off by default.** If your headphones moved to your phone

@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "Clamshell",
+    name: "Unhitch",
     platforms: [.macOS(.v13)],
     targets: [
         .executableTarget(
-            name: "Clamshell",
-            path: "Sources/Clamshell",
+            name: "Unhitch",
+            path: "Sources/Unhitch",
             linkerSettings: [
                 .linkedFramework("AppKit"),
                 .linkedFramework("IOBluetooth"),

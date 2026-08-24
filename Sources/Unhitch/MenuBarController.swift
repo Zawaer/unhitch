@@ -11,7 +11,7 @@ final class MenuBarController: NSObject, NSMenuDelegate {
     private let menu = NSMenu()
     private var isMenuOpen = false
 
-    static let repositoryURL = URL(string: "https://github.com/Zawaer/clamshell")!
+    static let repositoryURL = URL(string: "https://github.com/Zawaer/unhitch")!
 
     init(bluetooth: BluetoothManager) {
         self.bluetooth = bluetooth
@@ -50,14 +50,14 @@ final class MenuBarController: NSObject, NSMenuDelegate {
     private func updateIcon() {
         guard let button = statusItem?.button else { return }
         let symbol = Preferences.enabled ? "laptopcomputer" : "laptopcomputer.slash"
-        let image = NSImage(systemSymbolName: symbol, accessibilityDescription: "Clamshell")
-            ?? NSImage(systemSymbolName: "laptopcomputer", accessibilityDescription: "Clamshell")
+        let image = NSImage(systemSymbolName: symbol, accessibilityDescription: "Unhitch")
+            ?? NSImage(systemSymbolName: "laptopcomputer", accessibilityDescription: "Unhitch")
         image?.isTemplate = true
         button.image = image
         button.appearsDisabled = !Preferences.enabled
         button.toolTip = Preferences.enabled
-            ? "Clamshell is watching \(Preferences.watchedDevices.count) device(s)"
-            : "Clamshell is paused"
+            ? "Unhitch is watching \(Preferences.watchedDevices.count) device(s)"
+            : "Unhitch is paused"
     }
 
     // MARK: - Menu
@@ -65,7 +65,7 @@ final class MenuBarController: NSObject, NSMenuDelegate {
     private func rebuild() {
         menu.removeAllItems()
 
-        add(title: Preferences.enabled ? "Clamshell is on" : "Clamshell is paused",
+        add(title: Preferences.enabled ? "Unhitch is on" : "Unhitch is paused",
             action: #selector(toggleEnabled),
             state: Preferences.enabled ? .on : .off)
 
@@ -119,8 +119,8 @@ final class MenuBarController: NSObject, NSMenuDelegate {
 
         menu.addItem(.separator())
         addHeader("Bluetooth stays on — Find My is unaffected")
-        add(title: "About Clamshell", action: #selector(openRepository))
-        add(title: "Quit Clamshell", action: #selector(quit), keyEquivalent: "q")
+        add(title: "About Unhitch", action: #selector(openRepository))
+        add(title: "Quit Unhitch", action: #selector(quit), keyEquivalent: "q")
     }
 
     @discardableResult

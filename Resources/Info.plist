@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>Clamshell</string>
+	<string>Unhitch</string>
 	<key>CFBundleDisplayName</key>
-	<string>Clamshell</string>
+	<string>Unhitch</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.zawaer.clamshell</string>
+	<string>com.zawaer.unhitch</string>
 	<key>CFBundleExecutable</key>
-	<string>Clamshell</string>
+	<string>Unhitch</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
 	<key>CFBundlePackageType</key>
@@ -23,7 +23,7 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Clamshell disconnects the Bluetooth devices you choose when your lid closes. It never turns the Bluetooth radio off.</string>
+	<string>Unhitch disconnects the Bluetooth devices you choose when your lid closes. It never turns the Bluetooth radio off.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>MIT Licensed</string>
 	<key>NSSupportsAutomaticTermination</key>
