@@ -1,6 +1,6 @@
 cask "unhitch" do
-  version "1.1.1"
-  sha256 "dbe320d2296e18434f5d629e9a76e863b91e279d1708f9eb0e689547f3ff0899"
+  version "1.2.0"
+  sha256 "c111d6d2158764f85a497211814bcc73892c81486e69b239daba1f7b5dc063c4"
 
   url "https://github.com/Zawaer/unhitch/releases/download/v#{version}/Unhitch.zip"
   name "Unhitch"
