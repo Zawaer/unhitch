@@ -12,7 +12,6 @@
   <a href="https://github.com/Zawaer/unhitch/actions/workflows/build.yml"><img src="https://github.com/Zawaer/unhitch/actions/workflows/build.yml/badge.svg" alt="Build"></a>
   <img src="https://img.shields.io/badge/macOS-13%2B-333" alt="macOS 13+">
   <img src="https://img.shields.io/badge/dependencies-none-333" alt="No dependencies">
-  <img src="https://img.shields.io/badge/menu%20bar-optional-333" alt="Menu bar optional">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-333" alt="MIT"></a>
 </p>
 
@@ -22,13 +21,6 @@ Multipoint is not unlimited. It is almost always exactly two connections. So whe
 shut the lid and walk off, the Mac in your bag does not politely step aside — it keeps
 its slot. You are down to one, to be shared between your phone, your tablet and your
 work laptop, and something has to lose.
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/slots-dark.svg">
-    <img src="docs/slots-light.svg" width="820" alt="Without Unhitch, a sleeping MacBook occupies the second of two connection slots and the iPad is locked out. With Unhitch, the MacBook steps aside and the iPad takes the slot.">
-  </picture>
-</p>
 
 Sometimes it loses loudly: a call routed to a laptop that is closed inside a bag,
 playback that stutters when you hit play on your phone, a headset that flatly refuses
@@ -49,13 +41,6 @@ Because that also switches off **Find My's offline finding network** — the thi
 lets a closed, sleeping Mac be located by other Apple devices passing within Bluetooth
 range. Turning the radio off to stop one headset reconnecting means giving up the
 ability to find a stolen laptop, and taking your keyboard and trackpad down with it.
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/radio-dark.svg">
-    <img src="docs/radio-light.svg" width="820" alt="Turning the Bluetooth radio off releases the headphones but also kills the keyboard, trackpad and Find My offline finding. Unhitch closes a single link and keeps all three.">
-  </picture>
-</p>
 
 Unhitch closes individual device links instead. The radio is never touched, so offline
 finding keeps broadcasting exactly as before. This is the entire reason the app exists
@@ -80,7 +65,7 @@ Ranked by how much it actually costs you:
   already, so try that first.
 
 **Not you:** one Mac, one phone, one multipoint headset, never docked. You have two
-slots and two devices. Install nothing.
+slots and two devices. Don't install this.
 
 <br>
 
@@ -96,10 +81,7 @@ Everything else is left alone: your keyboard, your mouse, your trackpad, and the
 itself.
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/settings-dark.png">
-    <img src="docs/settings-light.png" width="420" alt="The Unhitch window: a list of paired devices with the two headsets ticked, toggles for when to let go, and options for launching at login and showing the menu bar icon.">
-  </picture>
+  <img src="docs/window.png" width="500" alt="The Unhitch window: a list of paired Bluetooth devices with the WH-1000XM4 ticked, toggles for letting go when the lid closes and when the Mac sleeps, and options for launching at login and showing the menu bar icon.">
 </p>
 
 <br>
@@ -112,17 +94,6 @@ on its own. The **Disconnect Now** button exists as an escape hatch, not as a ro
 
 The intended end state is an app you never see — launched at login, menu bar icon
 switched off, quietly declining to hold a connection it should not be holding.
-
-<br>
-
-## Window or menu bar, your choice
-
-There is a proper window and an optional menu bar icon, and neither is the "real" UI —
-the same settings are reachable from both.
-
-If you keep a deliberately empty menu bar, turn **Show in the menu bar** off. Unhitch
-carries on running invisibly with no Dock icon either; reopening it from your
-Applications folder brings the window back.
 
 <br>
 
@@ -179,7 +150,7 @@ make install
 | `make run` | Build and launch from `dist/` |
 | `make zip` | Package `dist/Unhitch.zip` for a release |
 | `make cask` | Point `Casks/unhitch.rb` at the latest published release |
-| `make art` | Redraw the app icon, diagrams and window screenshots from their generators |
+| `make icon` | Redraw the app icon from its generator |
 | `make uninstall` | Quit and remove the installed app |
 | `make log` | Show what Unhitch has decided in the last 15 minutes |
 | `make clean` | Remove build products |

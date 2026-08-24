@@ -3,7 +3,7 @@ BUNDLE     := dist/$(APP).app
 CONFIG     := release
 BIN        := .build/$(CONFIG)/$(APP)
 
-.PHONY: all build app icon art run install uninstall zip cask log clean
+.PHONY: all build app icon run install uninstall zip cask log clean
 
 all: app
 
@@ -27,12 +27,6 @@ Resources/AppIcon.icns:
 	swift Tools/MakeIcon.swift Resources/AppIcon.icns
 
 icon: Resources/AppIcon.icns
-
-## Redraw the icon and the README figures from their generators.
-art:
-	swift Tools/MakeIcon.swift Resources/AppIcon.icns
-	python3 Tools/make_diagrams.py
-	sh Tools/render-settings.sh docs
 
 run: app
 	pkill -x $(APP) || true
