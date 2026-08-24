@@ -139,6 +139,25 @@ On first launch the window opens by itself and Unhitch adds itself as a login it
 it survives a restart. Tick your headphones and you are done — there is no account, no
 onboarding, and nothing else to configure.
 
+### With Homebrew
+
+The cask lives in this repository rather than in a separate tap, so the first tap needs
+the repository URL spelled out. After that it behaves like any other cask.
+
+```sh
+brew tap zawaer/unhitch https://github.com/Zawaer/unhitch
+brew trust zawaer/unhitch
+brew install --cask zawaer/unhitch/unhitch
+```
+
+`brew trust` is required because Homebrew 6 refuses to evaluate code from a third-party
+tap until you say so. Updates then arrive with `brew upgrade --cask unhitch`, and
+`brew uninstall --zap --cask unhitch` removes the app along with its settings.
+
+Homebrew does **not** avoid the first-launch step above. Removing the quarantine flag
+automatically needs a notarized app, so the right-click → Open is still a one-time cost
+whichever way you install.
+
 <br>
 
 ## Build from source
@@ -159,6 +178,7 @@ make install
 | `make app` | Build `dist/Unhitch.app` without installing |
 | `make run` | Build and launch from `dist/` |
 | `make zip` | Package `dist/Unhitch.zip` for a release |
+| `make cask` | Point `Casks/unhitch.rb` at the latest published release |
 | `make art` | Redraw the app icon, diagrams and window screenshots from their generators |
 | `make uninstall` | Quit and remove the installed app |
 | `make log` | Show what Unhitch has decided in the last 15 minutes |

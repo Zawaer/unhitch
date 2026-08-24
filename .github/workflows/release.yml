@@ -12,7 +12,11 @@ jobs:
   build:
     runs-on: macos-15
     steps:
+      # Not shallow: the cask commit below pushes to main, and pushing from a
+      # shallow clone is rejected.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Build and package
         run: make zip
@@ -22,3 +26,25 @@ jobs:
         with:
           files: dist/Unhitch.zip
           generate_release_notes: true
+
+      # The archive uploaded above is byte-for-byte the one users download, so its
+      # checksum is taken from disk rather than waiting for the asset to appear and
+      # pulling it back. dist/ is gitignored, so it survives the branch switch.
+      #
+      # Pushed with GITHUB_TOKEN, which by design does not retrigger workflows, so
+      # this cannot loop back into build.yml.
+      - name: Point the cask at this release
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          git checkout -B main origin/main
+          sh Tools/update-cask.sh "$GITHUB_REF_NAME" dist/Unhitch.zip
+
+          if git diff --quiet -- Casks/unhitch.rb; then
+            echo "Cask is already current; nothing to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Point the cask at $GITHUB_REF_NAME" -- Casks/unhitch.rb
+          git push origin main

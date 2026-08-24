@@ -3,7 +3,7 @@ BUNDLE     := dist/$(APP).app
 CONFIG     := release
 BIN        := .build/$(CONFIG)/$(APP)
 
-.PHONY: all build app icon art run install uninstall zip log clean
+.PHONY: all build app icon art run install uninstall zip cask log clean
 
 all: app
 
@@ -52,6 +52,10 @@ uninstall:
 zip: app
 	cd dist && zip -qry "$(APP).zip" "$(APP).app"
 	@echo "Packaged dist/$(APP).zip"
+
+## Point Casks/unhitch.rb at the latest published release.
+cask:
+	sh Tools/update-cask.sh
 
 ## What Unhitch has decided recently. Close the lid, open it, then run this.
 log:
