@@ -94,10 +94,11 @@ final class MenuBarController: NSObject, NSMenuDelegate {
         let disconnect = add(title: "Disconnect Now", action: #selector(disconnectNow))
         disconnect.isEnabled = !model.watched.isEmpty && model.isEnabled
 
-        add(title: "Settings…", action: #selector(openSettings), keyEquivalent: ",")
-
+        // Settings and Quit are both about the app rather than about Bluetooth, so
+        // they sit together, apart from the controls above.
         menu.addItem(.separator())
-        add(title: "Quit Unhitch", action: #selector(quit), keyEquivalent: "q")
+        add(title: "Settings…", action: #selector(openSettings), keyEquivalent: ",", symbol: "gearshape")
+        add(title: "Quit Unhitch", action: #selector(quit), keyEquivalent: "q", symbol: "power")
     }
 
     /// The triggers live in a submenu so the menu stays short without making the
@@ -124,11 +125,22 @@ final class MenuBarController: NSObject, NSMenuDelegate {
         return parent
     }
 
+    /// `symbol` is set explicitly rather than left to the system. macOS 26 draws an
+    /// icon beside items it recognises, such as Settings, and reserves an icon column
+    /// for the whole section once it does — which silently indents that item's
+    /// neighbours. Ventura through Sequoia decorate nothing, so relying on it would
+    /// line these two up on one macOS and stagger them on another.
     @discardableResult
-    private func add(title: String, action: Selector, state: NSControl.StateValue = .off, keyEquivalent: String = "") -> NSMenuItem {
+    private func add(title: String, action: Selector, state: NSControl.StateValue = .off,
+                     keyEquivalent: String = "", symbol: String? = nil) -> NSMenuItem {
         let item = NSMenuItem(title: title, action: action, keyEquivalent: keyEquivalent)
         item.target = self
         item.state = state
+        if let symbol {
+            let image = NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
+            image?.isTemplate = true
+            item.image = image
+        }
         menu.addItem(item)
         return item
     }
